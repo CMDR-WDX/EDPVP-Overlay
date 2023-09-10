@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { useStorage } from '@vueuse/core';
 import getEffectiveConfig from '../util/getEffectiveConfig';
-import { MockEventListener } from '../util/eventListeners';
 import { onBeforeUnmount, ref } from 'vue';
 import KillEntry from './KillEntry.vue';
 
@@ -54,7 +53,7 @@ function handleNewEvent(killer: string, victim: string) {
 }
 
 
-const {cancel} = MockEventListener(config, handleNewEvent)
+const {cancel} = (await import('../util/eventListeners').then(e => e.MockEventListener))(config, handleNewEvent)
 
 
 onBeforeUnmount( () => {
